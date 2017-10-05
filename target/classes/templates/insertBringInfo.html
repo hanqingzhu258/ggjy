@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+
+<title>Document</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link href="./css/jquery.dataTables.min.css" />
+<script src="./js/jquery-1.12.4.js"></script>
+
+
+<script src="./js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="js/bootstrap.min.js"></script>
+<script src="js/insertBringInfo.js"></script>
+<script type="text/javascript" src='./js/laydate/laydate.js'></script>
+
+<script type="text/javascript" src="kindeditor/kindeditor-all.js"></script> 
+
+<script>  
+       var editor;  
+       KindEditor.ready(function (K) {  
+           editor = K.create('#content', {  
+               afterBlur: function () { this.sync();},  
+               width: 750,//编辑器宽度  
+               height: 200,//编辑器高度  
+               minWidth: 300,//编辑器最小宽度  
+               minHeight: 100,//编 辑器最小高度  
+               uploadJson: '/fileUpload',//接收上传文件处理程序  
+               fileManagerJson: '/fileManager'//浏览远程图片的服务器端程序  
+           });  
+       });  
+   </script>
+
+
+<script type="text/javascript">
+	lay('#version').html('-v' + laydate.v);
+
+	//执行一个laydate实例
+	laydate.render({
+		elem : '.datepick' //指定元素
+	});
+</script>
+</head>
+<body>
+	<header>
+		<nav>
+			<h3 class="text-center">硅谷精英发帖信息</h3>
+		</nav>
+	</header>
+	<div class="container">
+
+
+		<table class="table table-striped">
+
+			<tr>
+				<td><h5 class="col-md-2 text-right">标题:</h5>
+					<div class="col-md-10">
+						<input type="text" class="form-control" name="title" id="title"
+							required="" autofocus="" placeholder="请输入标题:" />
+					</div></td>
+			</tr>
+			<tr>
+				<td><h5 class="col-md-2 text-right">作者:</h5>
+					<div class="col-md-10">
+						<input type="text" class="form-control" id="author" name="author"
+							required="" autofocus="" placeholder="请输入作者名称:" />
+					</div></td>
+			</tr>
+			<tr>
+				<td><h5 class="col-md-2 text-right">编辑人:</h5>
+					<div class="col-md-10">
+						<input type="text" class="form-control" id="editor" name="editor"
+							required="" autofocus="" placeholder="请输入编辑人:" />
+					</div></td>
+			</tr>
+			<tr>
+				<td><h5 class="col-md-2 text-right">分类:</h5>
+					<div class="col-md-10">
+
+						<select class="form-control" id="parentId" name="parentId">
+							<option value="">请选择分类</option>
+							<option value="1">硅谷要闻</option>
+							<option value="2">硅谷专区</option>
+							<option value="3">IT</option>
+							<option value="4">通信</option>
+							<option value="5">汽车</option>
+							<option value="6">家电</option>
+							<option value="7">生物医药</option>
+							<option value="8">新材料</option>
+							<option value="9">新能源</option>
+							<option value="10">科技创新</option>
+							<option value="11">学子竞技</option>
+							<option value="12">高校平台展示</option>
+							<option value="13">创业团队</option>
+							<option value="14">创业之星</option>
+							<option value="15">业界精英</option>
+							<option value="16">创业新秀</option>
+							<option value="17">创业心得</option>
+							<option value="18">管理理论</option>
+							<option value="19">企业战略</option>
+							<option value="20">创业管理</option>
+							<option value="21">创业文化</option>
+							<option value="22">书籍推荐</option>
+							<option value="23">人才推荐</option>
+							<option value="24">创业融资</option>
+							<option value="25">技术推广</option>
+							<option value="26">高新园区</option>
+							<option value="27">孵化器</option>
+							<option value="28">特色产业基地</option>
+							<option value="29">创业基金</option>
+							<option value="30">创业政策</option>
+						</select>
+
+					</div></td>
+			</tr>
+			<tr>
+							<td>
+							<h5 class="col-md-2 text-right">正文:</h5>
+								<div class="col-md-10">
+									<textarea id="content"  name="content" ></textarea>
+									<!-- <script type="text/javascript">CKEDITOR.replace('content');</script> -->
+								</div>
+							</td>
+						</tr>
+			<tr>
+				<td>
+					<button class=" btn btn-primary btn-block" onclick="addData()"
+						type="submit">提交</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<footer>
+		<center>
+			<span>@2017 勤工助学中心</span> <br /> <span>技术支持：明理苑大学生网络文化工作室</span>
+		</center>
+	</footer>
+
+
+</body>
+</html>
