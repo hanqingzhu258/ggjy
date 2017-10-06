@@ -72,6 +72,20 @@ public class PostServiceImpl implements PostService{
 		}
 		return posts;
 	}
+	
+	@Override
+	public List<Post> getPostByPPId(int startPos, int pageSize, int ppId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
+		List<Post> posts=new ArrayList<Post>();
+		posts=postDao.getPostByPPId(startPos, pageSize, ppId);
+		if(posts==null){
+			throw new RuntimeException("查询失败");
+		}
+		return posts;
+	}
+	
 
 	@Override
 	public int getCountByParentId(int parentId) throws Exception {
@@ -96,10 +110,7 @@ public class PostServiceImpl implements PostService{
 		posts=postDao.getPost(startPos, pageSize);
 		if(posts==null){
 			throw new RuntimeException("查询失败");
-		}
-		
-		
-		
+		}	
 		return posts;
 	}
 

@@ -21,6 +21,10 @@ public interface PostService {
 	//按分类分页查询
 	public List<Post> getPostByParentId(int startPos, int pageSize, int parentId)
 			throws Exception;
+	
+	//按分类分页查询
+		public List<Post> getPostByPPId(int startPos, int pageSize, int ppId)
+				throws Exception;
 
 	//按分类获取总数
 	public int getCountByParentId(int parentId) throws Exception;

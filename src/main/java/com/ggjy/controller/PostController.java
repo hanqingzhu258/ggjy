@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpRequest;
@@ -86,16 +87,18 @@ public class PostController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/getPostByParentId", method = RequestMethod.POST)
+	@RequestMapping(value = "/getPostByParentId", method = RequestMethod.GET)
 	public Result<List<Post>> getPostByParentId(HttpServletRequest request) {
 
+		/*System.out.println("method: getPostByParentId is being used!!!");*/
+		
 		int parentId = Integer.parseInt(((ServletRequest) request)
 				.getParameter("parentId"));
 
-		User user = (User) request.getSession().getAttribute("user");
+		/*User user = (User) request.getSession().getAttribute("user");
 		if (user == null) {
 			return new Result<List<Post>>(false, "您还没有登陆", null);
-		}
+		}*/
 
 		List<Post> list = new ArrayList<Post>();
 		try {
@@ -103,6 +106,10 @@ public class PostController {
 		} catch (Exception e) {
 		}
 
+		/*for(Post post:list){
+			System.out.println("title:"+post.getTitle());
+		}*/
+		
 		return new Result<List<Post>>(true, "success", list);
 	}
 
@@ -210,27 +217,79 @@ public class PostController {
 		return new Result<String>(true, "更新成功", null);
 	}
 
+	
 	@ResponseBody
-	@RequestMapping(value = "/getPostById", method = RequestMethod.POST)
-	public Result<List<Post>> getPostById(@RequestBody Post post) {
+	@RequestMapping(value = "/getPostById", method = RequestMethod.GET)
+	public Result<Post> getPostById(HttpServletRequest request) {
 
-		if (post.getId() <= 0) {
-			return new Result<List<Post>>(false, "参数有误", null);
-		}
+		int id=Integer.parseInt(request.getParameter("id"));
 
 		Post findedPost = null;
 		try {
-			findedPost = postService.queryById(post.getId());
-		} catch (Exception e) {
-		}
-
-		if (findedPost == null) {
-			return new Result<List<Post>>(false, "查询失败", null);
-		}
-		List<Post> list = new ArrayList<Post>();
-		list.add(findedPost);
-		return new Result<List<Post>>(true, "success", list);
+			findedPost = postService.queryById(id);
+		} catch (Exception e) {}
+		
+		return new Result<Post>(true, "success", findedPost);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getPostByPPId", method = RequestMethod.GET)
+	public Result<List<Post>> getPostByPPId(HttpServletRequest request) {
+
+		int ppId=Integer.parseInt(request.getParameter("ppId"));
+
+		List<Post> posts=new ArrayList<Post>();
+		try {
+			posts = postService.getPostByPPId(0, 100, ppId);
+		} catch (Exception e) {}
+		
+		return new Result<List<Post>>(true, "success", posts);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/getPostByGroupParentId", method = RequestMethod.GET)
+	public Result<List<ArrayList<Post>>> getPostByGroupParentId(HttpServletRequest request) {
+
+		
+//		System.out.println("the method is being used");
+/*		int parentId1=Integer.parseInt(request.getParameter("parentId1"));
+		int parentId2=Integer.parseInt(request.getParameter("parentId2"));
+		int parentId3=Integer.parseInt(request.getParameter("parentId3"));
+		int parentId4=Integer.parseInt(request.getParameter("parentId4"));
+		int parentId5=Integer.parseInt(request.getParameter("parentId5"));*/
+
+		List<ArrayList<Post>> posts=new ArrayList<ArrayList<Post>>();
+		ArrayList<Post> posts1=new ArrayList<Post>();
+		ArrayList<Post> posts2=new ArrayList<Post>();
+		ArrayList<Post> posts3=new ArrayList<Post>();
+		ArrayList<Post> posts4=new ArrayList<Post>();
+		ArrayList<Post> posts5=new ArrayList<Post>();
+		
+/*		posts.add(posts1);
+		posts.add(posts2);
+		posts.add(posts3);
+		posts.add(posts4);
+		posts.add(posts5);*/
+		
+		try {
+			
+			posts1=(ArrayList<Post>) postService.getPostByParentId(0, 5, 18);
+			posts2=(ArrayList<Post>) postService.getPostByParentId(0, 5, 10);
+			posts3=(ArrayList<Post>) postService.getPostByParentId(0, 5, 17);
+			posts4=(ArrayList<Post>) postService.getPostByParentId(0, 5, 12);
+			posts5=(ArrayList<Post>) postService.getPostByParentId(0, 5, 28);
+			posts.add(posts1);
+			posts.add(posts2);
+			posts.add(posts3);
+			posts.add(posts4);
+			posts.add(posts5);
+			
+		} catch (Exception e) {}
+		
+		return new Result<List<ArrayList<Post>>>(true, "success", posts);
+	}
+	
 
 	@ResponseBody
 	@RequestMapping(value = "/nextOrBeforePage", method = RequestMethod.POST)
